@@ -53,7 +53,7 @@ public class Deck
             // get image for card
             im = new ImageIcon(pics[position]);
             // create Card object and add it to the deck
-            deck.add(new Card(s, r, im));
+            deck.add(new Card(r, s, im));
             position++;
          }
       }

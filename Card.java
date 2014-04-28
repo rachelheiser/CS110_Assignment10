@@ -93,19 +93,25 @@ public class Card
       
       // determine rank and add to string
       if (rank < 11)
-         str = rank + "of ";
+      {
+         str = rank + " of ";
+      }   
       else
       {   
-         switch(rank)
+         switch (rank)
          {
             case 11:
                str = "Jack of ";
+               break;
             case 12:
                str = "Queen of ";
+               break;
             case 13:
-               str = "King of ";   
+               str = "King of "; 
+               break;  
             case 14:
-               str = "Ace of ";      
+               str = "Ace of "; 
+               break;     
          }
       }
       // determine suit and add to string
@@ -113,12 +119,16 @@ public class Card
       {
          case 1:
             str += "Clubs";
+            break;
          case 2:
             str += "Diamonds";
+            break;
          case 3:
             str += "Hearts";
+            break;
          case 4:
-            str += "Spades";         
+            str += "Spades"; 
+            break;        
       } 
       // return the string
       return str;  
