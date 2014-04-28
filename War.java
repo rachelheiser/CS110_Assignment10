@@ -42,6 +42,7 @@ public class War
    {
       Card p1Card = player1.dealCard();
       Card p2Card = player2.dealCard();
+      
       // add cards to the roundCards ArrayList
       roundCards.add(p1Card);
       roundCards.add(p2Card);
