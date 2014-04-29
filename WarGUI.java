@@ -76,7 +76,7 @@ public class WarGUI extends JFrame
       firstFrontLabel2 = new JLabel();
       // create flip button
       flipButton = new JButton("Flip");
-//       flipButton.addActionListener(new ButtonListener());
+       flipButton.addActionListener(new ButtonListener());
       // add labels and button to third panel
       thirdPanel.add(back1Label);
       thirdPanel.add(firstFrontLabel1);
@@ -88,11 +88,14 @@ public class WarGUI extends JFrame
       
       
    }
-//    // handle button event
-//    private class ButtonListener implements ActionListener
-//    {
-//    
-//    }
+   // handle button event
+   private class ButtonListener implements ActionListener
+   {
+      public void actionPerformed(ActionEvent e)
+      {
+         
+      }
+   }
    
    
    public static void main(String[] args)
