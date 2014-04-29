@@ -7,10 +7,10 @@ import java.util.ArrayList;
 public class War
 {
    String roundWinner;           // to hold the winner of a round
+   String overallWinner;
    Pile player1;                 // to hold player1's cards
    Pile player2;                 // to hold player2's cards
    ArrayList<Card> roundCards;   // holds the cards laid out during the round
-   
    
    /**
       The constructor creates a deck, creates a pile for 
@@ -60,18 +60,23 @@ public class War
    
    private void compareCards(Card card1, Card card2)
    {
-      if (card1.equals(card2))
-      {
-         roundWinner = null;
-      }
-      else if (card1.getRank() > card2.getRank())
-      {
-         roundWinner = "Player 1";
-      }
-      else
-      {
-         roundWinner = "Player 2";
-      }
+      // if either player has an empty pile, the game is over, otherwise
+      // draw cards
+      if (!isGameOver())
+         {
+         if (card1.equals(card2))
+         {
+            roundWinner = null;
+         }
+         else if (card1.getRank() > card2.getRank())
+         {
+            roundWinner = "Player 1";
+         }
+         else
+         {
+            roundWinner = "Player 2";
+         }
+      }   
    }
    
    /**
@@ -125,16 +130,57 @@ public class War
       roundCards.add(p2Card1);
       roundCards.add(p2Card2);
       
-      compareCards(p1Card1, p2Card1);
-      
-      if (!roundWinner.equals("Player 1") && 
-               !roundWinner.equals("Player 2"))
-      {
-         compareCards(p1Card2, p2Card2);
+      // if  either player has run out of cards, game is over
+      if (!isGameOver())
+      { 
+         compareCards(p1Card1, p2Card1);
+         
+         if (!roundWinner.equals("Player 1") && 
+                  !roundWinner.equals("Player 2"))
+         {
+            compareCards(p1Card2, p2Card2);    
+         }   
       }         
       
    }
    
+   /**
+      The isGameOver method determines if either player has run out of cards.
+      If a player has an empty pile, they will automatically lose.
+      @return True if a player has an empty pile. Otherwise, false is returned.
+   */
+   
+   public boolean isGameOver()
+   {
+      // if player1's pile is empty, player2 wins
+      if (player1.isEmpty())
+      {
+         overallWinner = "Player 2";
+         return true;
+      }
+      // if player2's pile is empty, player1 wins
+      else if (player2.isEmpty())
+      {
+         overallWinner = "Player 1";
+         return true;
+      }
+      // otherwise the game can continue
+      else
+      {
+         return false;
+      }
+      
+   }
+   
+   /**
+      The getRoundCards method
+      @return An array list containing the cards used during a round.
+   */
+   
+   public ArrayList<Card> getRoundCards()
+   {
+      return roundCards;
+   }  
    
    /**
       The getRoundWinner method
@@ -145,4 +191,9 @@ public class War
    {
       return roundWinner;
    }
+   
+   /**
+      The getOverallWinner method
+      @return A string containing the winner of the game.
+   */
 }
