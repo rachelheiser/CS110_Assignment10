@@ -4,7 +4,7 @@ import javax.swing.*;
 // CS110 Assignment10
 // Card class
 
-public class Card
+public class Card implements CardInterface
 {
    // ranks jack through ace
    public static int JACK = 11;
