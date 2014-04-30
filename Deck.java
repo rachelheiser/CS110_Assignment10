@@ -6,7 +6,7 @@ import java.util.Random;
 // CS110 Assignment10
 // Deck class
 
-public class Deck
+public class Deck implements DeckInterface
 {
    // declare a deck ArrayList
    ArrayList<Card> deck;
