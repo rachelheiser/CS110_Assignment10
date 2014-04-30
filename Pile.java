@@ -4,7 +4,7 @@ import java.util.ArrayList;
 // CS110 Assignment10
 // Piles class
 
-public class Pile extends Deck
+public class Pile extends Deck implements PileInterface
 {
    ArrayList<Card> pile;
    int numCards;        // to hold number of cards in pile
