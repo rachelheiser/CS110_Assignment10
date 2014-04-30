@@ -4,13 +4,14 @@ import java.util.ArrayList;
 // CS110 Assignment10
 // War class
 
-public class War
+public class War implements WarInterface
 {
    String roundWinner;           // to hold the winner of a round
    String overallWinner;
    Pile player1;                 // to hold player1's cards
    Pile player2;                 // to hold player2's cards
    ArrayList<Card> roundCards;   // holds the cards laid out during the round
+   boolean wereFlipped; // true if second cards in a war were used
    
    /**
       The constructor creates a deck, creates a pile for 
@@ -86,17 +87,24 @@ public class War
    
    public void assignPoints()
    {
+      Card tempCard;
       if (roundWinner.equals("Player 1"))
       {
          // add round cards to player1's pile
-         for (Card card : roundCards)
-            player1.addCard(card);
+         for (int i = roundCards.size(); i > 0; i--)
+         {
+            tempCard = roundCards.remove(i);
+            player1.addCard(tempCard);
+         }   
       }
       else if (roundWinner.equals("Player 2"))
       {
          // add round cards to player2's pile
-         for (Card card : roundCards)
-            player2.addCard(card);
+         for (int i = roundCards.size(); i > 0; i--)
+         {
+            tempCard = roundCards.remove(i);
+            player2.addCard(tempCard);
+         }
       }
       else
       {
@@ -118,6 +126,9 @@ public class War
    
    public void war()
    {
+      // set wereFlipped to false
+      wereFlipped = false;
+      
       // take top two cards from each pile
       Card p1Card1 = player1.dealCard();
       Card p1Card2 = player1.dealCard();
@@ -135,14 +146,25 @@ public class War
       { 
          compareCards(p1Card1, p2Card1);
          
-         if (!roundWinner.equals("Player 1") && 
+         if (!roundWinner.equals("Player 1") || 
                   !roundWinner.equals("Player 2"))
          {
-            compareCards(p1Card2, p2Card2);    
+            compareCards(p1Card2, p2Card2);   
+            wereFlipped = true;
          }   
       }         
       
    }
+   
+   /**
+      The secondCardsFlipped method
+      @return True if the second pair of cards were used in a war. False, otherwise.
+   */
+   
+   public boolean secondCardsFlipped()
+   {
+      return wereFlipped;
+   }  
    
    /**
       The isGameOver method determines if either player has run out of cards.
@@ -196,4 +218,9 @@ public class War
       The getOverallWinner method
       @return A string containing the winner of the game.
    */
+   
+   public String getOverallWinner()
+   {
+      return overallWinner;
+   }
 }
