@@ -28,7 +28,9 @@ public class WarGUI extends JFrame
                   
                   
    private ArrayList<Card> roundCards;  
-   private Card card1, card2, card3, card4, card5, card6;           
+   private Card card1, card2, card3, card4, card5, card6; 
+   private int p1NumCards = 26;
+   private int p2NumCards =26;          
                   
    /**
       The constructor
@@ -37,7 +39,6 @@ public class WarGUI extends JFrame
    public WarGUI()
    {
       setTitle("War");
-      setSize(400,70);
       setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
            
       setLayout(new GridLayout(5,1));
@@ -62,9 +63,9 @@ public class WarGUI extends JFrame
       p1CardsLabel.setFont(new Font("ARIAL", Font.PLAIN, 18));
       p2CardsLabel = new JLabel("Cards:");
       p2CardsLabel.setFont(new Font("ARIAL", Font.PLAIN, 18));
-      p1Score = new JLabel("26");
+      p1Score = new JLabel("" + p1NumCards);
       p1Score.setFont(new Font("ARIAL", Font.PLAIN, 18));
-      p2Score = new JLabel("26");
+      p2Score = new JLabel("" + p2NumCards);
       p2Score.setFont(new Font("ARIAL", Font.PLAIN, 18));
       
       //add labels to second panel
@@ -81,18 +82,6 @@ public class WarGUI extends JFrame
       // create labels for the piles
       p1FaceDown1 = new JLabel();
       p2FaceDown1 = new JLabel();
-      
-//       // put in the button
-//       while (!game.player1.isEmpty())
-//       {
-//          // display pile for first player in first cell
-//          p1FaceDown1.setIcon(new ImageIcon("back.jpg"));
-//       }
-//       while (!game.player2.isEmpty())
-//       {
-//          // display pile for second player in first cell
-//          p2FaceDown1.setIcon(new ImageIcon("back.jpg"));
-//       }
 
       // labels for the cards flipped when not in a war
       p1FaceUp1 = new JLabel();
@@ -116,7 +105,7 @@ public class WarGUI extends JFrame
       p1FaceDown2 = new JLabel();
       p2FaceDown2 = new JLabel();
       // create war label
-      warSecTitle = new JLabel("War");
+      warSecTitle = new JLabel();
       warSecTitle.setFont(new Font("ARIAL", Font.BOLD, 18));
       // add labels to the fourth panel
       fourthPanel.add(p1FaceDown2);
@@ -129,6 +118,7 @@ public class WarGUI extends JFrame
       fifthPanel = new JPanel();
       // create label that will later display the winner of the game
       winnerIs = new JLabel();
+      winnerIs.setFont(new Font("ARIAL", Font.BOLD, 30));
       fifthPanel.add(winnerIs);
       
       add(firstPanel);
@@ -137,7 +127,7 @@ public class WarGUI extends JFrame
       add(fourthPanel);
       add(fifthPanel);
       
-      
+      pack();
       setVisible(true);  
    }
    
@@ -146,7 +136,38 @@ public class WarGUI extends JFrame
    {
       public void actionPerformed(ActionEvent e)
       {
-         while (game.getOverallWinner() == null)
+         // clear the war area
+         warSecTitle.setText(null);
+         p1FaceDown2.setIcon(null);
+         p2FaceDown2.setIcon(null);
+         p1FaceUp2.setIcon(null);
+         p2FaceUp2.setIcon(null);
+         
+         if (!game.player1.isEmpty())
+         {
+            // display pile for first player in first cell
+            p1FaceDown1.setIcon(new ImageIcon("back.jpg"));
+         }
+         else
+         {
+            // if player1 has no cards, set icon to null
+            p1FaceDown1.setIcon(null);
+         }
+         
+         if (!game.player2.isEmpty())
+         {
+            // display pile for second player in first cell
+            p2FaceDown1.setIcon(new ImageIcon("back.jpg"));
+         }
+         else
+         {
+            // if player2 has no cards, set icon to null
+            p2FaceDown1.setIcon(null);
+         }
+         
+         
+         // if there is not an overall winnner
+         if (game.getOverallWinner() == null)
          {
             // take top card from each file and compare
             game.flip();
@@ -160,43 +181,89 @@ public class WarGUI extends JFrame
             p2FaceUp1.setIcon(card2.getPicture());
             
             // if cards don't match assign points to the round winner
-            if (game.getRoundWinner() != null)
+            String roundWinner = game.getRoundWinner();
+            if (roundWinner != null)
             {
+               // display number of cards for each player
+               int numCards = roundCards.size();
+               if (roundWinner.equals("Player 1"))
+               {
+                  p1NumCards += numCards/2;
+                  p2NumCards -= numCards/2;
+                  p1Score.setText("" + p1NumCards);
+                  p2Score.setText("" + p2NumCards);
+               }
+               else
+               {
+                  p1NumCards -= numCards/2;
+                  p2NumCards += numCards/2;
+                  p1Score.setText("" + p1NumCards);
+                  p2Score.setText("" + p2NumCards);
+               }
+
+               // assign points to the winner
                game.assignPoints();
+               
             }
             else
             {
-               game.war();
-               // display cards for war
-               p1FaceDown2.setIcon(new ImageIcon("back.jpg"));
-               p2FaceDown2.setIcon(new ImageIcon("back.jpg"));
-               // get roundCards ArrayList
-               roundCards = game.getRoundCards();
-               // get first set of cards to display (the 3rd and 5th indexes in roundCards)
-               card3 = roundCards.get(3); // player1's flipped card in war
-               card4 = roundCards.get(5); // player2's flipped card in war
-               p1FaceUp2.setIcon(card3.getPicture());
-               p2FaceUp2.setIcon(card4.getPicture());
-               // if second pair of cards need to be flipped, display them.
-               if (game.secondCardsFlipped())
+               while (roundWinner == null)
                {
-                  // get second set of cards to display (2nd and 4th indexes in roundCards).
-                  card5 = roundCards.get(2); // player1's second flipped card in war
-                  card6 = roundCards.get(4); // player2's second flipped card in war
-                  p1FaceDown2.setIcon(card5.getPicture());
-                  p2FaceDown2.setIcon(card6.getPicture());
+                  game.war();
+                  warSecTitle.setText("War");
+                  // display cards for war
+                  p1FaceDown2.setIcon(new ImageIcon("back.jpg"));
+                  p2FaceDown2.setIcon(new ImageIcon("back.jpg"));
+                  // get roundCards ArrayList
+                  roundCards = game.getRoundCards();
+                  // get first set of cards to display (the 3rd and 5th indexes in roundCards)
+                  card3 = roundCards.get(3); // player1's flipped card in war
+                  card4 = roundCards.get(5); // player2's flipped card in war
+                  p1FaceUp2.setIcon(card3.getPicture());
+                  p2FaceUp2.setIcon(card4.getPicture());
+                  // if second pair of cards need to be flipped, display them.
+                  if (game.secondCardsFlipped())
+                  {
+                     // get second set of cards to display (2nd and 4th indexes in roundCards).
+                     card5 = roundCards.get(2); // player1's second flipped card in war
+                     card6 = roundCards.get(4); // player2's second flipped card in war
+                     p1FaceDown2.setIcon(card5.getPicture());
+                     p2FaceDown2.setIcon(card6.getPicture());
+                  }
+                  
+                  // get updated roundWinner
+                  roundWinner = game.getRoundWinner();
+               }   
+               // display number of cards for each player
+               roundCards = game.getRoundCards();
+               int numCards = roundCards.size();
+               if (roundWinner.equals("Player 1"))
+               {
+                  p1NumCards += numCards/2;
+                  p2NumCards -= numCards/2;
+                  p1Score.setText("" + p1NumCards);
+                  p2Score.setText("" + p2NumCards);
                }
+               else
+               {
+                  p1NumCards -= numCards/2;
+                  p2NumCards += numCards/2;
+                  p1Score.setText("" + p1NumCards);
+                  p2Score.setText("" + p2NumCards);
+               } 
+               // assign points to the winner
                game.assignPoints();  
             } 
          }
-         //if overall winner is not null, then announce winner
-         winnerIs.setText("Winner is " + game.getOverallWinner()); 
-         // disable the flip button
-         flipButton.setEnabled(false);
-      
-      }
-      
-
+         // if there is an overall winner
+         else
+         {
+            // announce winner
+            winnerIs.setText("Winner is " + game.getOverallWinner()); 
+            // disable the flip button
+            flipButton.setEnabled(false);
+         }
+      }      
    }
    
    
