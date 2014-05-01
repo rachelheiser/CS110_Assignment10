@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Random;
 
 // Rachel Heiser
 // CS110 Assignment10
@@ -45,7 +46,7 @@ public class Pile extends Deck implements PileInterface
    
    /**
       The isEmpty methoddetermines if the pile has any cards remaining.
-      The boolean value true is returned if there are no cards remaining.
+      @return The boolean value true if there are no cards remaining.
       Otherwise, the boolean value false is returned.
    */
    
@@ -79,30 +80,21 @@ public class Pile extends Deck implements PileInterface
       pile.add(newCard);
    }
    
+   /**
+      The shuffle method shuffles cards in the pile.
+   */
    
-//    // testing
-//    public static void main(String[] args)
-//    {
-//       Deck myDeck = new Deck();
-//       myDeck.shuffle();
-// //       Card firstCard = myDeck.dealCard();
-// //       System.out.println(firstCard);
-// //       Card secondCard = myDeck.dealCard();
-// //       System.out.println(secondCard);
-// //       System.out.println(firstCard.equals(secondCard));
-// //       System.out.println(myDeck.getSize());
-// //       System.out.println(myDeck.isEmpty());
-//       Pile myPile = new Pile(myDeck, 26);
-//       System.out.println(myPile.getSize());
-//       Card firstCard = myPile.dealCard();
-//       System.out.println(firstCard);
-//       System.out.println(myPile.getSize());
-//       myPile.addCard(firstCard);
-//       System.out.println(myPile.getSize());
-//       System.out.println(myPile.isEmpty());
-//       Pile myPileTwo = new Pile(myDeck, 26);
-//       System.out.println(myPileTwo.isEmpty());
-//       
-//    }
-   
+   public void shuffle()
+   {
+      int rNum;
+      Card tempCard;
+      Random r = new Random();
+      for (int i = 0; i < pile.size(); i++)
+      {
+         rNum = r.nextInt(pile.size());
+         tempCard = pile.get(i);
+         pile.set(i,pile.get(rNum));
+         pile.set(rNum,tempCard);
+      }
+   }
 }

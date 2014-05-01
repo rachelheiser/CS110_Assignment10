@@ -69,8 +69,7 @@ public class Card implements CardInterface
    /**
       The equals method compares the ranks of two cards and determines
       if they are equal.
-      If the two cards have the same rank then the 
-      boolean value true is returned. Otherwise, false is returned.
+      @return True ff the two cards have the same rank. Otherwise, false is returned.
    */
    
    public boolean equals(Card object2)

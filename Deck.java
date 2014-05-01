@@ -41,9 +41,10 @@ public class Deck implements DeckInterface
    
    public void newDeck()
    {
-      ImageIcon im;  // will hold image for a card
+      ImageIcon im;     // will hold image for a card
       deck = new ArrayList<Card>();
       int position = 0; // starting position in image name array
+      
       // go through all the card ranks
       for (int r = 2; r <= Card.ACE; r++)
       {
@@ -101,7 +102,7 @@ public class Deck implements DeckInterface
    
    /**
       The isEmpty method determines if the deck has any cards remaining.
-      The boolean value true is returned if there are no cards remaining.
+      @return The boolean value true if there are no cards remaining.
       Otherwise, the boolean value false is returned.
    */
    
