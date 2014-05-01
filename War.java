@@ -11,7 +11,7 @@ public class War implements WarInterface
    Pile player1;                 // to hold player1's cards
    Pile player2;                 // to hold player2's cards
    ArrayList<Card> roundCards;   // holds the cards laid out during the round
-   boolean wereFlipped; // true if second cards in a war were used
+   boolean wereFlipped;          // true if second cards in a war were used
    
    /**
       The constructor creates a deck, creates a pile for 
@@ -41,6 +41,9 @@ public class War implements WarInterface
    
    public void flip()
    {
+      player1.shuffle();
+      player2.shuffle();
+      
       Card p1Card = player1.dealCard();
       Card p2Card = player2.dealCard();
       
@@ -91,7 +94,7 @@ public class War implements WarInterface
       if (roundWinner.equals("Player 1"))
       {
          // add round cards to player1's pile
-         for (int i = roundCards.size(); i > 0; i--)
+         for (int i = roundCards.size()-1; i >= 0; i--)
          {
             tempCard = roundCards.remove(i);
             player1.addCard(tempCard);
@@ -100,7 +103,7 @@ public class War implements WarInterface
       else if (roundWinner.equals("Player 2"))
       {
          // add round cards to player2's pile
-         for (int i = roundCards.size(); i > 0; i--)
+         for (int i = roundCards.size()-1; i >= 0; i--)
          {
             tempCard = roundCards.remove(i);
             player2.addCard(tempCard);
@@ -145,13 +148,15 @@ public class War implements WarInterface
       if (!isGameOver())
       { 
          compareCards(p1Card1, p2Card1);
-         
-         if (!roundWinner.equals("Player 1") || 
-                  !roundWinner.equals("Player 2"))
+         if ((!roundWinner.equals("Player 1")) && (!roundWinner.equals("Player 2")))
          {
             compareCards(p1Card2, p2Card2);   
             wereFlipped = true;
-         }   
+         } 
+         else
+         {
+            wereFlipped = false;
+         }     
       }         
       
    }
